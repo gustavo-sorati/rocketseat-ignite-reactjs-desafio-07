@@ -3,8 +3,17 @@ import Link from "next/link";
 import { Navigation, Pagination, Scrollbar } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 
-export default function(){
+type SliderContinentData = {
+  continents: {
+    id: string;
+    title: string;
+    banner: string;
+    minDescription?: string;
+  }[]
+}
 
+export default function({continents}: SliderContinentData){
+  console.log(continents)
 
   return (
     <Flex w="100%" maxW="1240px" mx="auto" mb={["5", "10"]} h={["250px", "450px"]}>
@@ -22,29 +31,32 @@ export default function(){
         // onSlideChange={() => console.log('slide change')}
       >
         
-        <SwiperSlide>
-          <Flex
-            w="100%"
-            h="100%"
-            align="center"
-            justify="center"
-            direction="column"
-            bgImage={"/asia.jpg"}
-            bgRepeat="no-repeat"
-            bgSize="cover"
-            bgPosition="cover"
-            textAlign="center"
-          >
-            <Link href="/continent/asia">
-              <a>
-                <Heading fontSize={["3xl", "4xl", "5xl"]} fontWeight="bold" color="gray.100">Asia</Heading>
-                <Text fontSize={["0.8rem", "xl", "2xl"]} fontWeight="bold" color="gray.300" mt={["2", "4"]}>O continente do outro lado do mundo.</Text>
-              </a>
-            </Link>
-          </Flex>
-        </SwiperSlide>
+        {continents.map(continent => (
+          <SwiperSlide key={continent.id}>
+            <Flex
+              w="100%"
+              h="100%"
+              align="center"
+              justify="center"
+              direction="column"
+              bgImage={`url(${continent.banner})`}
+              bgRepeat="no-repeat"
+              bgSize="cover"
+              bgPosition={["100% 50%"]}
+              textAlign="center"
+            >
+              <Link href={`/continent/${continent.id}`}>
+                <a>
+                  <Heading fontSize={["3xl", "4xl", "5xl"]} fontWeight="bold" color="gray.100">{continent.title}</Heading>
+                  <Text fontSize={["0.8rem", "xl", "2xl"]} fontWeight="bold" color="gray.100" mt={["2", "4"]}>{continent.minDescription}</Text>
+                </a>
+              </Link>
+            </Flex>
+          </SwiperSlide>
 
-        <SwiperSlide>Slide 2</SwiperSlide>
+
+
+        ))}
       </Swiper>
     </Flex>
   )

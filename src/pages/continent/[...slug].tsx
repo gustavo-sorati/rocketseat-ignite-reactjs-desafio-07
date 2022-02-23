@@ -6,6 +6,11 @@ import Banner from "../../components/ContinentPost/Banner";
 import Header from "../../components/Header";
 import { Descricao } from "../../components/ContinentPost/Descricao";
 import Cities from "../../components/ContinentPost/Cities";
+import { ParsedUrlQuery } from 'querystring';
+
+interface Params extends ParsedUrlQuery {
+  id: string,
+}
 
 export default function(continent: ContinentData){
   return (
@@ -34,7 +39,9 @@ export const getStaticPaths: GetStaticPaths = async () => {
 }
 
 export const getStaticProps: GetStaticProps = async (context) => {
-  const response = await api.get<ContinentData>('1');
+  const {slug} = context.params! as Params;
+
+  const response = await api.get<ContinentData>(String(slug));
   
   return {
     props: {

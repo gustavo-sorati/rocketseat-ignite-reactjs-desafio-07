@@ -3,6 +3,7 @@ export type ContinentData = {
   title: string;
   banner: string;
   description: string;
+  minDescription?: string;
   info: {
     amountCountries: string;
     amountLanguages: string;
